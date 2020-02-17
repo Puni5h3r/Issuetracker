@@ -141,5 +141,4 @@ def create_issue(request, id):
             issue.save()
             return redirect('base:project_detail', id = id)
 
-
     return render(request,'projects/create_issue_template.html',context)

@@ -11,8 +11,12 @@ def update_issue(request,id):
     comment = IssueComment.objects.filter(issue=issue)
     form2 = IssueCommentForm
     project = Project.objects.get(pk = issue.project.project_id)
-    like = IssueLike.objects.get(issue = issue or None)
-    form3 = IssueLikeForm(instance=like)
+    try:
+        like_instance = IssueLike.objects.get(issue = issue)
+        form3 = IssueLikeForm(instance=like_instance)
+    except IssueLike.DoesNotExist:
+        form3 = IssueLikeForm
+        like_instance = None
 
     if request.method == "POST":
         form = IssueCloseForm(request.POST, instance=issue)
@@ -26,26 +30,34 @@ def update_issue(request,id):
             post = form.save(commit=False)
             post.updated_by_user = request.user
             post.save()
-            like = request.POST.get('like' or None)
-            dislike = request.POST.get('dislike' or None)
-            if like or dislike is True:
+            if like_instance is None:
                 issue_like = form3.save(commit=False)
                 issue_like.issue = issue
                 issue_like.action_by = request.user
                 issue_like.save()
+            else:
+                issue_like = form3.save(commit=False)
+                obj, created = IssueLike.objects.update_or_create(
+                    issue=issue, action_by=request.user,
+                    defaults={'like': issue_like.like, 'dislike':issue_like.dislike},
+                )
             return redirect('update:update_issue', id=issue.id)
         elif form.is_valid() :
             post = form.save(commit=False)
             post.updated_by_user = request.user
             post.save()
-            like = request.POST.get('like' or None)
-            dislike = request.POST.get('dislike' or None)
-            if like or dislike is True:
+            if like_instance is None:
                 issue_like = form3.save(commit=False)
                 issue_like.issue = issue
                 issue_like.action_by = request.user
                 issue_like.save()
-            return redirect('base:project_detail', id = project.project_id )
+            else:
+                issue_like = form3.save(commit=False)
+                obj, created = IssueLike.objects.update_or_create(
+                    issue=issue, action_by=request.user,
+                    defaults={'like': issue_like.like, 'dislike': issue_like.dislike},
+                )
+            return redirect('update:update_issue', id = issue.id )
 
     context = {'form': form,
                'form2':form2,
