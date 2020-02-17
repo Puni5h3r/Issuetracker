@@ -1,0 +1,32 @@
+{% block sidebar %}
+
+<style>
+        .card{
+            box-shadow: 0 16px 48px #E3E7EB;
+        }
+
+</style>
+
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4 float-right ">
+<div class="card my-4">
+
+    {% if user.is_authenticated %}
+    <h5 class="card-header">Create Repository</h5>
+    <div class="card-body">
+        <p class="card-text"> {{ user.first_name }} Create a repository?</p>
+        <a href="{% url 'base:create_project' %}"
+           class="btn btn-success">create!</a>
+    </div>
+    {% else %}
+    <h5 class="card-header">About us</h5>
+    <div class="card-body">
+        <p class="card-text"> Do you want to create a repository?</p>
+        <a href="{% url 'accounts:signup' %}"
+           class="btn btn-info">Know more!</a>
+    </div>
+    {% endif %}
+</div>
+</div>
+
+{% endblock sidebar %}

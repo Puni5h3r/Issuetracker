@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+
+
+
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+         margin: 0 auto;
+          float: none;
+           margin-bottom: px;
+    }
+</style>
+
+<div class="col-md-4 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h1>Create Project</h1>
+        {% load crispy_forms_tags %}
+        <form method="post" style="margin-top: 1.3em;">
+          {{ project_form | crispy }}
+            {{ attachment_form | crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg" style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Create</button>
+        </form>
+           <a href="{% url 'base:Project'%}"  style="text-align: right;
+    float: right;">Project</a>
+      </div>
+    </div>
+
+{% endblock %}

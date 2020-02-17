@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+         margin: 0 auto;
+          float: none;
+           margin-bottom: px;
+    }
+</style>
+
+{% load crispy_forms_tags %}
+
+<div class="col-md-4 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h1>Create Issue</h1>
+        <form method="post" style="margin-top: 1.3em;">
+          <p>Title: {{ issue_form.title }}</p>
+          <p>Description:</p>
+          <p>{{ issue_form.description}}</p>
+            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+            Due Date:     {{ issue_form.due_date }}
+  <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div>
+
+          <p>Restrict Access{{ issue_form.restrict_access }}</p>
+            <p>Weight: {{ issue_form.weight }}</p>
+
+            {{ attachment_form | crispy }}
+            {{ assinee_form | crispy }}
+
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg" style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Create</button>
+        </form>
+           <a href="{% url 'base:project_detail' project.project_id %}"  style="text-align: right;
+    float: right;">Issues</a>
+      </div>
+    </div>
+
+
+<div class="col-md-4 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h1>Create Milestone</h1>
+        <form method="post" style="margin-top: 1.3em;">
+          <p>Title: {{ milestone_form.title }}</p>
+          <p>Description:</p>
+          <p>{{ milestone_form.description }}</p>
+            <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+            Start Date:     {{ milestone_form.start_date }}
+  <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div>
+            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+            Due Date:     {{ milestone_form.due_date }}
+  <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div>
+        </form>
+      </div>
+    </div>
+
+<script>
+  $(function () {
+    $("#datetimepicker1").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+  });
+
+</script>
+<script>
+$(function () {
+    $("#datetimepicker2").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+  });
+  </script>
+<script>
+$(function () {
+    $("#datetimepicker3").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+  });
+  </script>
+<script>
+$(function () {
+    $("#datetimepicker4").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+  });
+  </script>
+
+{% endblock %}

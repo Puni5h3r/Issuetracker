@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+
+        /*
+        background-image: url('{% static "img/image7.jpg" %}');
+        /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+*/
+
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+         margin: 0 auto;
+          float: none;
+           margin-bottom: px;
+    }
+</style>
+<!--background-image: url('{% static "img/image2.jpg" %}');-->
+
+<div class="col-md-4 card mb-4  mt-3 ">
+      <div class="card-body">
+
+        {% load crispy_forms_tags %}
+        <form method="post" style="margin-top: 1.3em;">
+          {{ form | crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg" style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Login</button>
+        </form>
+          <a href="{% url 'accounts:signup' %}"  style="text-align: right;
+    float: right;">Create User</a>
+      </div>
+    </div>
+
+{% endblock %}

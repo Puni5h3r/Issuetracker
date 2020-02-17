@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+  body{
+  font-family: "Roboto", sans-serif;
+        font-size: 18px;
+
+  }
+  .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+         margin: 0 auto;
+          float: none;
+           margin-bottom: px;
+    }
+
+</style>
+<div class="col-md-4 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h1>Edit Issue</h1>
+        {% load crispy_forms_tags %}
+        <form method="post" style="margin-top: 1.3em;">
+          <p>status open {{ form.open }}</p>
+            <p>like {{ form3.like }}</p>
+            <p>dislike{{ form3.dislike }}</p>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg" style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Post</button>
+        </form>
+           <a href="{% url 'base:project_detail' project.project_id %}"  style="text-align: right;
+    float: right;">project</a>
+      </div>
+    </div>
+<div>
+
+
+</div>
+
+<div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <!-- comments -->
+        <h2>{{ comment.count }} comments</h2>
+
+        {% for com in comment %}
+        <div class="comments" style="padding: 10px;">
+          <p class="font-weight-bold">
+            {{ com.user }}
+            <span class=" text-muted font-weight-normal">
+              {{ com.created_on }}
+            </span>
+          </p>
+          {{ com.comment | linebreaks }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+
+        <h3>Leave a comment</h3>
+        {% load crispy_forms_tags %}
+        <form method="post" style="margin-top: 1.3em;">
+          {{ form2 | crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg">Comment</button>
+        </form>
+      </div>
+    </div>
+
+{% endblock %}
+

@@ -1,0 +1,63 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+  body{
+  font-family: "Roboto", sans-serif;
+        font-size: 18px;
+
+  }
+
+</style>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <h1>{% block title %} {{ project.name }} {% endblock title %}</h1>
+        <p class=" text-muted">{{ project.created_by_user }} | {{ project.created_on }}</p>
+        <a href=""  style="text-align: right;
+    float: right;">Edit</a>
+        <p class="card-text ">{{ project.description | safe }}</p>
+        <p class="card-text ">{{ project.updated_on }}</p>
+        <p class="card-text ">{{ project.updated_by_user }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-4 float-right ">
+<div class="card my-4">
+    <h5 class="card-header">Create Issues</h5>
+    <div class="card-body">
+        <p class="card-text"> {{ user.first_name }} Create an issue?</p>
+        <a href="{% url 'base:create_issue' project.project_id %}"
+           class="btn btn-success">create!</a>
+    </div>
+</div>
+</div>
+
+    <div class="col-md-8 card mb-4  mt-3 ">
+      <div class="card-body">
+        <!-- comments -->
+        <h2>{{ issue.count }} Issues</h2>
+
+        {% for comment in issue %}
+        <div class="comments" style="padding: 10px;">
+          <p class="font-weight-bold">
+            {{ comment.title }}
+            <span class=" text-muted font-weight-normal">
+              {{ comment.created_on }}
+            </span>
+            <a href="{% url 'update:update_issue' comment.id %}"  style="text-align: right;
+    float: right;">Edit</a>
+          </p>
+          {{ comment.description | linebreaks }}
+           {% if comment.open %}
+          status: open
+          {% else %}
+          status: close
+          {% endif %}
+
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
