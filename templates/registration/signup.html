@@ -28,20 +28,23 @@
           float: none;
            margin-bottom: px;
     }
+
 </style>
 
-<div class="col-md-4 card mb-4  mt-3 " <img src="something.jpg" alt="" />
-      <div class="card-body">
-        {% load crispy_forms_tags %}
-          <h1>Sign up</h1>
-        <form method="post" style="margin-top: 1.3em;">
-          {{ form | crispy }}
-          {% csrf_token %}
-          <button type="submit" class="btn btn-primary  btn-lg" style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Signup</button>
-        </form>
-          <a href="{% url 'accounts:login' %}"  style="text-align: left;
+<div class="col-md-4 card mb-4  mt-3 " <img src="something.jpg" alt=""/>
+<div class="card-body">
+    {% load crispy_forms_tags %}
+    <h1>Sign up</h1>
+    <form method="post" style="margin-top: 1.3em;">
+        {{ form | crispy }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary  btn-lg"
+                style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Signup
+        </button>
+    </form>
+    <a href="{% url 'accounts:login' %}" style="text-align: left;
     float: left;">Back</a>
-      </div>
-    </div>
+</div>
+</div>
 
 {% endblock %}

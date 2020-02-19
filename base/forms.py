@@ -2,6 +2,7 @@ from django import forms
 
 from .models import Project, ProjectAttachment, Issue, IssueAttachment, Assignees, Milestone
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.translation import ugettext_lazy as _
 import datetime
 
 
@@ -29,7 +30,9 @@ class IssueForm(forms.ModelForm):
                                          }),required=False,
                                      )
     restrict_access = forms.BooleanField(label='Restrict access',required=False)
-    weight = forms.IntegerField(validators=[MinValueValidator(0)],required=False)
+    weight = forms.IntegerField(
+                validators=[MinValueValidator(0)],error_messages={'required':'please provide a number greater than 0'},
+                required=False)
 
     class Meta:
         model = Issue
@@ -56,7 +59,7 @@ class MilestoneForm(forms.ModelForm):
                                              'data-target': '#datetimepicker3'
                                          }), required=False
                                      )
-    due_date = forms.DateTimeField(initial=datetime.date.today,
+    Due_date = forms.DateTimeField(initial=datetime.date.today,
                                    input_formats=['%d/%m/%Y'],
                                    widget=forms.DateTimeInput(
                                        attrs={
@@ -67,4 +70,4 @@ class MilestoneForm(forms.ModelForm):
 
     class Meta:
         model = Milestone
-        fields = ['title','description','start_date','due_date']
+        fields = ['title','description','start_date','Due_date']

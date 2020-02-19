@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+         margin: 0 auto;
+          float: none;
+           margin-bottom: px;
+    }
+
+</style>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device-width" initial-scale="1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div class="col-md-4 card mb-4 mt-3">
+    <div class="card-body">
+        <div style="text-align center">
+            <input type="submit" value="OK">
+            <input type="text" id="hex">
+            <input type="color" id="color">
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+
+</html>
+
+{% endblock %}

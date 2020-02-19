@@ -37,41 +37,44 @@ a {
 button:hover, a:hover {
   opacity: 0.7;
 }
+
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% if user.is_authenticated %}
 <div class="card">
-  <img src="img.jpg" alt="" style="width:100%">
-  <h1>{{ user.username }}</h1>
-  <p class="title"></p>
-  <p>Blogger</p>
+    <img src="img.jpg" alt="" style="width:100%">
+    <h1>{{ user.username }}</h1>
+    <p class="title"></p>
+    <p>Blogger</p>
     {% endif %}
-  <a href="#"><i class="fa fa-dribbble"></i></a>
-  <a href="#"><i class="fa fa-twitter"></i></a>
-  <a href="#"><i class="fa fa-linkedin"></i></a>
-  <a href="#"><i class="fa fa-facebook"></i></a>
-  <p><button>Contact</button></p>
+    <a href="#"><i class="fa fa-dribbble"></i></a>
+    <a href="#"><i class="fa fa-twitter"></i></a>
+    <a href="#"><i class="fa fa-linkedin"></i></a>
+    <a href="#"><i class="fa fa-facebook"></i></a>
+    <p>
+        <button>Contact</button>
+    </p>
 </div>
 <div class="container">
     <div class="row">
 
         <div class="col-md-8 mt-3 left">
 
-        {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+            {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+        </div>
     </div>
-</div>
 
-{% if is_paginated %}
-  <nav aria-label="Page navigation conatiner"></nav>
-  <ul class="pagination justify-content-center">
-    {% if page_obj.has_previous %}
-    <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
-    {% endif %}
-    {% if page_obj.has_next %}
-    <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-    {% endif %}
-  </ul>
-  </nav>
+    {% if is_paginated %}
+    <nav aria-label="Page navigation conatiner"></nav>
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+        {% endif %}
+    </ul>
+    </nav>
 </div>
 {% endif %}
 

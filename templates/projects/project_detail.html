@@ -3,17 +3,16 @@
   body{
   font-family: "Roboto", sans-serif;
         font-size: 18px;
-
   }
-
 </style>
+
 <div class="container">
   <div class="row">
     <div class="col-md-8 card mb-4  mt-3 left  top">
       <div class="card-body">
         <h1>{% block title %} {{ project.name }} {% endblock title %}</h1>
-        <p class=" text-muted">{{ project.created_by_user }} | {{ project.created_on }}</p>
-        <a href=""  style="text-align: right;
+        <p class="text-muted">{{ project.created_by_user }} | {{ project.created_on }}</p>
+        <a href="{% url 'update:update_project' project.project_id %}"  style="text-align: right;
     float: right;">Edit</a>
         <p class="card-text ">{{ project.description | safe }}</p>
         <p class="card-text ">{{ project.updated_on }}</p>
@@ -35,7 +34,9 @@
     <div class="col-md-8 card mb-4  mt-3 ">
       <div class="card-body">
         <!-- comments -->
-        <h2>{{ issue.count }} Issues</h2>
+        <h2>Total {{ issue.count }} Issues</h2>
+          <h5>{{ open_total }} Issues Open</h5>
+          <h5>{{ close_total }} Issues Close</h5>
 
         {% for comment in issue %}
         <div class="comments" style="padding: 10px;">
@@ -47,13 +48,15 @@
             <a href="{% url 'update:update_issue' comment.id %}"  style="text-align: right;
     float: right;">Edit</a>
           </p>
-          {{ comment.description | linebreaks }}
+        <p> {{ comment.description | linebreaks }}</p>
            {% if comment.open %}
-          status: open
+        <p>status: open<p>
           {% else %}
-          status: close
+         <p>status: close<p>
           {% endif %}
-
+          {% if comment.weight  %}
+          <p>Weight{{ comment.weight }}<p>
+          {% endif %}
         </div>
         {% endfor %}
       </div>

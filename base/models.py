@@ -1,10 +1,23 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator
 
 import uuid
 
+from .widgets import ColorPickerWidget
+
 User = get_user_model()
+
+## a color field to upload to pick a color picker wizard
+
+class ColorField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = 10
+        super(ColorField, self).__init__(*args, **kwargs)
+
+    def formfield(self, **kwargs):
+        kwargs['widget'] = ColorPickerWidget
+        return super(ColorField, self).formfield(**kwargs)
 
 # a uuid will be generated which will be used as the primary key when making models
 
@@ -106,13 +119,10 @@ class Issue(models.Model):
     weight = models.IntegerField(validators=[MinValueValidator(0)], blank=True, default= None, null= True)
 
 
-
-
 # #assignees can be tracked to the user,
 # #assigness can be restricted
-#
 class Assignees(models.Model):
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='assignee_issues')
+    issue = models.OneToOneField(Issue, on_delete=models.CASCADE, related_name='assignee_issues')
     assignees = models.ManyToManyField(User, related_name='assignees',blank=True)
     access = models.BooleanField(default=True)
 
@@ -135,7 +145,6 @@ class Milestone(models.Model):
      issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issue_milestones')
 
 
-
 # #milestone can have attachment
 class MilestoneAttachment(models.Model):
     milestone = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='milestone_attachment')
@@ -146,8 +155,6 @@ class MilestoneAttachment(models.Model):
     files = models.FileField(blank=True)
 
 
-
-
 # #issues can have comment
 class IssueComment(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issue_comment')
@@ -155,17 +162,15 @@ class IssueComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name= 'commented_by_user')
     created_on = models.DateTimeField(auto_now_add=True)
 
+
 class IssueLike(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name= 'issue_like')
     like = models.BooleanField(default=False)
     dislike = models.BooleanField(default=False)
     action_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='like_dislike_by_user')
 
-# #issues can have labels
-# class Label(IdMixin):
-#     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issue_label')
-#     color = models.IntegerField()
-#     priority = models.BooleanField(default=False)
-#
-# #issues can have weights
 
+class Label(models.Model):
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issue_label')
+    color_label = ColorField(blank=True)
+    priority = models.BooleanField(default=False)

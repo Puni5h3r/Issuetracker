@@ -5,9 +5,6 @@
     body {
         font-family: "Roboto", sans-serif;
         font-size: 18px;
-
-
-
     }
 
     .head_text {
@@ -23,19 +20,22 @@
 
 </style>
 
+{% load crispy_forms_tags %}
+
 <div class="col-md-4 card mb-4  mt-3 ">
     <div class="card-body">
-        <h1>Create Blog</h1>
-        {% load crispy_forms_tags %}
+        <h1>Set Assignees</h1>
         <form method="post" style="margin-top: 1.3em;">
-            {{ form | crispy }}
+
+            {{ assignee_form | crispy }}
+
             {% csrf_token %}
             <button type="submit" class="btn btn-primary  btn-lg"
                     style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Create
             </button>
         </form>
-        <a href="{% url 'accounts:profile' username=user.username %}" style="text-align: right;
-    float: right;">Profile</a>
+        <a href="{% url 'update:update_issue' issue.id %}" style="text-align: right;
+    float: right;">Issues</a>
     </div>
 </div>
-{% endblock %}
+{%endblock%}

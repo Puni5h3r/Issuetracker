@@ -142,6 +142,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    #'/var/www/static/',
+]
+
 #directory of static files
 #staticfiles_dirs being a list indicates that having multiple static directories is possible
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),]
@@ -149,6 +155,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),]
 #The command manage.py collectstatic will
 # automatically compile all the static
 # files throughout the project and
-# dump it into a single root directory,
+# dump it into the directory,
 # which is declared in STATIC_ROOT.
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+#STATIC_ROOT = os.path.join(BASE_DIR, "static")

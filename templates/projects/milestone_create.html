@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+         margin: 0 auto;
+          float: none;
+           margin-bottom: px;
+    }
+</style>
+
+<div class="col-md-4 card mb-4  mt-3 ">
+      <div class="card-body">
+        <h1>Create Milestone</h1>
+        <form method="post" style="margin-top: 1.3em;">
+          <p>Title: {{ milestone_form.title }}</p>
+          <p>Description:</p>
+          <p>{{ milestone_form.description }}</p>
+            <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+            Start Date:     {{ milestone_form.start_date }}
+  <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div>
+            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+            Due Date:     {{ milestone_form.Due_date }}
+  <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div>
+            {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg" style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Create</button>
+        </form>
+          <a href="{% url 'update:update_issue' issue.id %}"  style="text-align: right;
+    float: right;">Issues</a>
+      </div>
+    </div>
+
+<script>
+$(function () {
+    $("#datetimepicker3").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+  });
+  </script>
+<script>
+$(function () {
+    $("#datetimepicker4").datetimepicker({
+      format: 'DD/MM/YYYY',
+    });
+  });
+  </script>
+
+{% endblock %}
