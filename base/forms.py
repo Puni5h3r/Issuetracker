@@ -3,16 +3,21 @@ from django import forms
 from .models import Project, ProjectAttachment, Issue, IssueAttachment, Assignees, Milestone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
+
 import datetime
+
+User = get_user_model()
 
 
 class CreateProject(forms.ModelForm):
+    #members = forms.ModelChoiceField(queryset= User.objects.all(),widget=forms.CheckboxSelectMultiple(), required=False)
     class Meta:
         model = Project
         fields = ['name', 'repository','members', 'description',]
 
 
-class ProjectAttachment(forms.ModelForm):
+class ProjectAttachmentForm(forms.ModelForm):
     class Meta:
         model = ProjectAttachment
         fields = ['image','files']
@@ -30,13 +35,23 @@ class IssueForm(forms.ModelForm):
                                          }),required=False,
                                      )
     restrict_access = forms.BooleanField(label='Restrict access',required=False)
-    weight = forms.IntegerField(
-                validators=[MinValueValidator(0)],error_messages={'required':'please provide a number greater than 0'},
-                required=False)
+    weight = forms.IntegerField(required=False, validators=[MaxValueValidator(10),MinValueValidator(0)])
 
     class Meta:
         model = Issue
         fields = ['title','description','start_date','due_date','restrict_access','weight']
+
+    def clean_weight(self,*args,**kwargs):
+        weight = self.cleaned_data('weight')
+        if weight is not None:
+            if weight > 10:
+                raise forms.ValidationError(_('Number must be less than 10'))
+            elif weight < 0:
+                raise forms.ValidationError(_('Number must be greater than 0'))
+            else:
+                return weight
+
+
 
 
 class IssueAttachmentForm(forms.ModelForm):

@@ -11,9 +11,34 @@
           float: none;
            margin-bottom: px;
     }
+    .priority {
+        background-color: {{ color_label.color_label }};
+
+    }
+}
+
+
 
 
 </style>
+<div class="col-md-2 float-right">
+    <div class="card my-2">
+        <h5 class="card-header">Create or Email Assignees</h5>
+        <div class="card-body">
+            <p class="card-text"> {{ user.first_name }} Create Assignees?</p>
+            <a href="{% url 'update:assignee_update' issue.id %}"
+               class="btn btn-success">create!</a>
+        </div>
+    </div>
+    <div class="card my-2">
+        <h5 class="card-header">Remove assignees</h5>
+        <div class="card-body">
+            <p class="card-text"> {{ user.first_name }} Remove Assignees?</p>
+            <a href="{% url 'update:assignee_remove' issue.id %}"
+               class="btn btn-danger">Remove!</a>
+        </div>
+    </div>
+</div>
 
 <div class="col-md-2 float-right ">
     <div class="card my-2">
@@ -24,31 +49,54 @@
                class="btn btn-success">create!</a>
         </div>
     </div>
-</div>
-<div class="col-md-2 float-right ">
     <div class="card my-2">
-        <h5 class="card-header">Create Assignees</h5>
+        <h5 class="card-header">Add color label</h5>
         <div class="card-body">
-            <p class="card-text"> {{ user.first_name }} Create Assignees?</p>
-            <a href="{% url 'update:assignee_update' issue.id %}"
-               class="btn btn-success">create!</a>
+            <p class="card-text"> {{ user.first_name }} add color label?</p>
+            <a href="{% url 'update:label_update' issue.id %}"
+               class="btn btn-success">Add!</a>
         </div>
     </div>
 </div>
+
 <div class="col-md-4 card mb-4  mt-3 ">
     <div class="card-body">
         <h1>Edit Issue</h1>
         {% if issue.weight is not None %}
-        <p>weight: {{ issue.weight }}</p>
+        <p><strong>weight: {{ issue.weight }}</strong></p>
+        {% endif %}
+        <p><strong>Issue Opened on {{ issue.created_on }} by {{ issue.created_by_user.first_name }}</strong></p>
+        {% if issue.open == False %}
+        <p><strong>Issue closed on {{ issue.updatd_time }} by {{ issue.updated_by_user.first_name }}</strong></p>
+        {% endif %}
+        <p><strong>Last updated on {{ issue.updatd_time }} by {{ issue.updated_by_user.first_name }}</strong></p>
+        <p>Title: {{ issue.title }}<p>
+        <p>Description: {{ issue.description }}<p>
+        {% if color_label is not None %}
+        {% if color_label.priority == True %}
+        <p><strong>It is a priority</strong></p>
+        <p>Priority Label: <p class="priority"><strong>Priority</strong></p></p>
+        {% else %}
+        <p class="priority">Not a priority</p>
+        {% endif %}
         {% endif %}
 
         {% load crispy_forms_tags %}
         <form method="post" style="margin-top: 1.3em;">
             {% if issue.open == True %}
+            <label class="switch">
+                <input type="checkbox" onclick="checkboxFunction()" id="checkbox_status" checked>
+                <span class="slider"></span>
+            </label>
             <p>status is open</p>
             {% else %}
+            <label class="switch">
+                <input type="checkbox" onclick="checkboxFunction()" id="checkbox_status" >
+                <span class="slider"></span>
+            </label>
             <p>status is closed</p>
             {% endif %}
+
             <p>status {{ form.open }}</p>
             <p>Weight {{ form.weight }}</p>
             <p>like {{ form3.like }}</p>
@@ -58,12 +106,12 @@
                     style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Post
             </button>
         </form>
-        <a href="{% url 'base:project_detail' project.project_id %}" style="text-align: right;
-    float: right;">project</a>
+<!--        <i class="far fa-thumbs-up" onclick="myFunction(this)"></i>-->
+        <a href="{% url 'base:project_detail' project.project_id %}" style="text-align:right;
+    float:right;">project</a>
     </div>
     <p>
-        <a href="{% url 'update:label_update' issue.id %}" style="text-align: right;
-    float: right;">Label Color</a>
+
     </p>
     <p>Likes: {{ total_likes }}</p>
     <p>Dislikes: {{ total_dislikes }}</p>
@@ -72,6 +120,8 @@
     <p>assignee: {{ members }}</p>
     {% endfor %}
     {% endif %}
+
+
 </div>
 
 
@@ -110,7 +160,7 @@
         {% for com in comment %}
         <div class="comments" style="padding: 10px;">
             <p class="font-weight-bold">
-                {{ com.user }}
+                {{ com.user.first_name }}
                 <span class=" text-muted font-weight-normal">
               {{ com.created_on }}
             </span>
@@ -132,4 +182,21 @@
     </div>
 </div>
 
+<script>
+function myFunction(x) {
+  x.classList.toggle("fa-thumbs-down");
+}
+
+
+switchButton = document.getElementById("checkbox_status");
+statusCheckbox = document.getElementById("id_open");
+function checkboxFunction(){
+    if (switchButton.checked){
+    statusCheckbox.checked = true;
+    }else{
+    statusCheckbox.checked=false;
+    }
+}
+
+</script>
 {% endblock %}

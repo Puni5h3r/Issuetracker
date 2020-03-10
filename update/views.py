@@ -1,10 +1,21 @@
 from django.shortcuts import render,get_object_or_404,redirect
+from django.contrib.auth.decorators import login_required
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.context_processors import csrf
+from django.contrib.auth import get_user_model
 
 from .forms import IssueCloseForm, IssueCommentForm, IssueLikeForm, AddAssigneeForm, LabelFrom
-from base.models import Issue,Project, IssueComment, IssueLike, Milestone, Assignees
-from base.forms import CreateProject,ProjectAttachment
-from django.template.context_processors import csrf
+from base.models import Issue,Project, IssueComment, IssueLike, Milestone, Assignees, Label
+from base.forms import CreateProject,ProjectAttachmentForm
+from .tasks import *
 
+User = get_user_model()
+
+
+@login_required
 def update_issue(request,id):
     template_name = 'draft_detail.html'
     issue = get_object_or_404(Issue,pk=id)
@@ -38,6 +49,11 @@ def update_issue(request,id):
         context['assignee'] = assignee.assignees.all()
     except Assignees.DoesNotExist:
         context ['assignee'] = None
+    try:
+        color_label = Label.objects.get(issue=issue)
+        context['color_label'] = color_label
+    except Label.DoesNotExist:
+        context ['color_label'] = None
 
     if request.method == "POST":
         form = IssueCloseForm(request.POST, instance=issue)
@@ -81,11 +97,11 @@ def update_issue(request,id):
     return render(request,template_name,context)
 
 
-
+@login_required
 def update_project(request,id):
     project_instance = get_object_or_404(Project, project_id=id)
     project_form = CreateProject(instance=project_instance)
-    attachment_form = ProjectAttachment
+    attachment_form = ProjectAttachmentForm
     context = {}
     context.update(csrf(request))
     context ['project_form'] = project_form
@@ -99,10 +115,10 @@ def update_project(request,id):
             project_instance.name = update_project.name
             project_instance.description = update_project.description
             project_instance.repository = update_project.repository
-            members = request.POST.get('members' or None)
+            members = request.POST.getlist('members')
             project_instance.updated_by_user = request.user
             project_instance.save()
-            project_instance.members.add(members)
+            project_instance.members.add(*members)
             attachment = form2.save(commit=False)
             attachment.project = project_instance
             attachment.save()
@@ -113,17 +129,19 @@ def update_project(request,id):
             project_instance.name = update_project.name
             project_instance.description = update_project.description
             project_instance.repository = update_project.repository
-            members = request.POST.get('members' or None)
+            members = request.POST.getlist('members')
             project_instance.updated_by_user = request.user
             project_instance.save()
-            project_instance.members.add(members)
+            project_instance.members.add(*members)
             return redirect('base:Project')
 
     return render(request, 'projects/create_project_template.html', context)
 
 
 
+@login_required
 def create_add_assignee(request,id):
+    current_site = get_current_site(request)
     assignee_form = AddAssigneeForm
     issue = get_object_or_404(Issue,pk=id)
     try:
@@ -137,24 +155,97 @@ def create_add_assignee(request,id):
         assignee_form = assignee_form(request.POST)
         if assignee_form.is_valid():
             if instance is not None:
-                members = request.POST.get('assignees' or None)
-                instance.assignees.add(members)
+                members = request.POST.getlist('assignees')
+                instance.assignees.add(*members)
+                # emailing assignees for the project
+                if members is not None:
+
+                    subject = 'There has been an issue in the project: {}'.format(issue.project.name)
+                    user = User.objects.filter(pk__in=members)
+                    email = [email.email for email in user]
+                    assignee_form.send_email(email=email, current_site=current_site, issue=issue)
+
+
             else:
                 assignee = assignee_form.save(commit=False)
                 assignee.issue = issue
                 assignee.save()
                 members = request.POST.get('assignees' or None)
-                assignee.assignees.add(members)
+                assignee.assignees.add(*members)
+                # emailing assignees for the project
+
+                if members is not None:
+                    subject = 'There has been an issue in the project: {}'.format(issue.project.name)
+                    user = User.objects.filter(pk__in=members)
+                    email = [email.email for email in user]
+                    assignee_form.send_email(email=email, current_site=current_site, issue=issue)
+                    # for mem in user:
+                    #     message = render_to_string('registration/assignee_email.html', {
+                    #         'user': mem,
+                    #         'domain': current_site.domain,
+                    #         'id': issue.id,
+                    #     })
+                    #     mem.email_user(subject, message)
+                #emailing function here is complete
+
         return redirect('update:update_issue', id=id)
     else:
         return render(request,'issues/add_assignnee.html',context)
 
 
+
+@login_required
 def create_label(request,id):
     label_form = LabelFrom
     issue = get_object_or_404(Issue, pk = id)
+    try:
+        label_instance = Label.objects.get(issue = issue)
+    except Label.DoesNotExist:
+        label_instance = None
     template_name = 'issues/color_picker.html'
     context = {}
     context ['label_form']=label_form
     context ['issue']=issue
+
+    if request.method == 'POST':
+        label_form = label_form(request.POST)
+        color_data = request.POST.get('color' or None)
+        if label_form.is_valid():
+            label = label_form.save(commit=False)
+            if label_instance is not None:
+                label_instance.color_label = color_data
+                label_instance.priority = label.priority
+                label_instance.save()
+            else:
+                label.issue = issue
+                label.color_label = color_data
+                label.save()
+            return redirect('update:update_issue', id=id)
+
     return render(request, template_name, context)
+
+
+@login_required
+def remove_assignee(request, id):
+    assignee_form = AddAssigneeForm
+    issue = get_object_or_404(Issue, pk=id)
+    try:
+        instance = Assignees.objects.get(issue=issue)
+    except Assignees.DoesNotExist:
+        instance = None
+    context = {}
+    context['assignee_form'] = assignee_form(instance=instance)
+    context['issue'] = issue
+    if request.method == 'POST':
+        assignee_form = assignee_form(request.POST)
+        if assignee_form.is_valid():
+            if instance is not None:
+                members = request.POST.getlist('assignees')
+                instance.assignees.remove(*members)
+                return redirect('update:update_issue', id=id)
+            else:
+                context['error_message'] = 'You dont have assignees to be removed.'
+
+                return render(request,'issues/remove_assignee.html', context)
+    else:
+        return render(request, 'issues/remove_assignnee.html', context)

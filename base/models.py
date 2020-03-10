@@ -1,31 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 import uuid
 
-from .widgets import ColorPickerWidget
 
 User = get_user_model()
 
-## a color field to upload to pick a color picker wizard
-
-class ColorField(models.CharField):
-    def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = 10
-        super(ColorField, self).__init__(*args, **kwargs)
-
-    def formfield(self, **kwargs):
-        kwargs['widget'] = ColorPickerWidget
-        return super(ColorField, self).formfield(**kwargs)
-
-# a uuid will be generated which will be used as the primary key when making models
-
-# class IdMixin(models.Model):
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#
-#     class Meta:
-#         abstract = True
 
 #store information about when the updated was done and by which user
 
@@ -80,7 +61,7 @@ class Project(models.Model):
 class ProjectAttachment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_attachment')
-    image = models.ImageField(blank=True)
+    image = models.ImageField(blank=True, upload_to='images/')
     files = models.FileField(blank=True)
 
 
@@ -106,7 +87,7 @@ class ProjectAttachment(models.Model):
 class Issue(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     updated_by_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issue_updated_by', blank=True)
-    updatd_time = models.DateTimeField(auto_now_add=True)
+    updatd_time = models.DateTimeField(auto_now=True)
     created_by_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issue_created_by')
     created_on = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=256)
@@ -116,11 +97,11 @@ class Issue(models.Model):
     due_date = models.DateField(null=True, blank= True)
     restrict_access = models.BooleanField(default=False)
     project = models.ForeignKey(Project,on_delete=models.CASCADE, related_name='project_issue')
-    weight = models.IntegerField(validators=[MinValueValidator(0)], blank=True, default= None, null= True)
+    weight = models.IntegerField(blank=True, default= None, null= True, validators=[MinValueValidator(0), MaxValueValidator(10)])
 
 
-# #assignees can be tracked to the user,
-# #assigness can be restricted
+#assignees can be tracked to the user,
+#assigness can be restricted
 class Assignees(models.Model):
     issue = models.OneToOneField(Issue, on_delete=models.CASCADE, related_name='assignee_issues')
     assignees = models.ManyToManyField(User, related_name='assignees',blank=True)
@@ -170,7 +151,8 @@ class IssueLike(models.Model):
     action_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='like_dislike_by_user')
 
 
+
 class Label(models.Model):
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issue_label')
-    color_label = ColorField(blank=True)
+    issue = models.OneToOneField(Issue, on_delete=models.CASCADE, related_name='issue_label')
+    color_label = models.CharField(max_length=7, null=True, blank=True)
     priority = models.BooleanField(default=False)

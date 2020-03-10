@@ -8,4 +8,5 @@ urlpatterns = [
     path("projects/<uuid:id>/project/update/", views.update_project, name ='update_project'),
     path("projects/<uuid:id>/issue/assignee/update/", views.create_add_assignee, name ='assignee_update'),
     path("projects/<uuid:id>/issue/color/update/", views.create_label, name ='label_update'),
+    path("projects/<uuid:id>/issue/assignee/remove/", views.remove_assignee, name ='assignee_remove'),
 ]

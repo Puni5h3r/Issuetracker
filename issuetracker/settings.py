@@ -47,6 +47,26 @@ LOGOUT_REDIRECT_URL = 'accounts:login'
 AUTH_USER_MODEL = 'accounts.User'
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
 
+# Django’s settings.py to also configure Celery, add the following settings:
+CELEREY_RESULT_BACKEND = 'django-db'
+
+#For the broker url must be specified
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+# celery setting.
+CELERY_CACHE_BACKEND = 'default'
+
+# django setting.
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -60,6 +80,8 @@ INSTALLED_APPS = [
     'accounts',
     'update',
     'crispy_forms',
+'django_celery_results',
+
 ]
 
 MIDDLEWARE = [
@@ -150,7 +172,9 @@ STATICFILES_DIRS = [
 
 #directory of static files
 #staticfiles_dirs being a list indicates that having multiple static directories is possible
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static')
+]
 
 #The command manage.py collectstatic will
 # automatically compile all the static
@@ -158,3 +182,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),]
 # dump it into the directory,
 # which is declared in STATIC_ROOT.
 #STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+#the following files for uploading the referencing media files
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

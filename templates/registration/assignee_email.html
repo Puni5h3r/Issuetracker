@@ -1,0 +1,10 @@
+
+{% block content %}
+{% autoescape off %}
+Hi {{ user.first_name }},
+
+You have been assigned to the following project as there has been an issue. Link on the link below to go to the following issue.
+
+http://{{ domain }}{% url 'update:update_issue' id=id %}
+{% endautoescape %}
+{% endblock %}

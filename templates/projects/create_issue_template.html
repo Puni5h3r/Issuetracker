@@ -36,10 +36,11 @@
 </div>
 
           <p>Restrict Access{{ issue_form.restrict_access }}</p>
+          <p>Issue weight{{ issue_form.weight }}</p>
+            <div>{{ issue_form.weight.errors }}</div>
 
 
-            {{ attachment_form | crispy }}
-            {{ assinee_form | crispy }}
+
 
           {% csrf_token %}
           <button type="submit" class="btn btn-primary  btn-lg" style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">Create</button>
@@ -48,6 +49,7 @@
     float: right;">Issues</a>
       </div>
     </div>
+
 
 <script>
 $(function () {

@@ -3,36 +3,31 @@
   <component name="ChangeListManager">
     <list default="true" id="5160d085-c42f-4b32-aee6-d0d5d4245797" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/migrations/0002_issuecomment_created_on.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/migrations/0003_milestone_milestoneattachment.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/migrations/0004_auto_20200216_2255.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/base/migrations/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/widgets.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/issuetracker/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/issuetracker/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/issuetracker/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/issuetracker/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/base.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/draft_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/draft_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/issues/color_picker.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/issues/color_picker.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/projects/create_issue_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/projects/create_issue_template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/projects/create_project_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/projects/create_project_template.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/projects/project_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/projects/project_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/projects/project_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/projects/project_index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/account_activation_invalid.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/account_activation_invalid.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/account_activation_sent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/account_activation_sent.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/create.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/projects/milestone_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/projects/milestone_create.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/registration/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/successful_activation.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/successful_activation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sidebar.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/update/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/update/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/update/migrations/__init__.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/update/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/update/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/update/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/update/views.py" afterDir="false" />
     </list>
@@ -44,8 +39,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -68,10 +63,12 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/issues" />
       <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/registration" />
       <recent name="$PROJECT_DIR$/base" />
       <recent name="$PROJECT_DIR$/templates/projects" />
     </key>
@@ -89,29 +86,37 @@
     </task>
     <servers />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="633" y="342" width="710" height="421" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1581914326834">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="633" y="342" width="710" height="421" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1581914326834" />
-    <state x="717" y="255" width="524" height="594" key="FileChooserDialogImpl" timestamp="1582100960682">
+    <state x="541" y="27" width="884" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582783007786">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="717" y="255" width="524" height="594" key="FileChooserDialogImpl/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1581891578864" />
-    <state x="717" y="255" width="524" height="594" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1582100960682" />
+    <state x="541" y="27" width="884" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1582783007786" />
+    <state x="717" y="255" width="524" height="594" key="FileChooserDialogImpl" timestamp="1583637157687">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="717" y="255" width="524" height="594" key="FileChooserDialogImpl/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1583418416008" />
+    <state x="717" y="255" width="524" height="594" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1583637157687" />
     <state x="359" y="100" key="SettingsEditor" timestamp="1582095678637">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="359" y="100" key="SettingsEditor/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1581520879162" />
     <state x="359" y="100" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1582095678637" />
-    <state x="573" y="341" key="com.intellij.ide.util.TipDialog" timestamp="1582079956029">
+    <state x="573" y="341" key="com.intellij.ide.util.TipDialog" timestamp="1583659725854">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="573" y="341" key="com.intellij.ide.util.TipDialog/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1581887610467" />
-    <state x="573" y="341" key="com.intellij.ide.util.TipDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1582079956029" />
-    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1581760086506">
+    <state x="573" y="341" key="com.intellij.ide.util.TipDialog/67.27.1853.1053/1920.0.1920.1080@67.27.1853.1053" timestamp="1583418387035" />
+    <state x="573" y="341" key="com.intellij.ide.util.TipDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1583659725854" />
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup" timestamp="1582111368627">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1581760086506" />
+    <state x="572" y="45" width="840" height="1034" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1582111368627" />
   </component>
 </project>

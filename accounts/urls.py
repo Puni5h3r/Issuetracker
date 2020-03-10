@@ -12,4 +12,8 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('activated/', views.Activated.as_view(), name='activated'),
     path('profile/<str:username>/', views.profile_view, name='profile'),
+    path('profile/<str:username>/newpassword/', views.change_password, name='password_change'),
+    path('profile/<uidb64>/<token>/<str:username>/forgotpassword/', views.forgot_password, name='password_forgot'),
+    path('accounts/username', views.validate_username, name='validate_username'),
+
 ]

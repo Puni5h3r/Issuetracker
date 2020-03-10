@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+
 {% block content %}
 
 
@@ -19,7 +19,6 @@
           float: none;
            margin-bottom: px;
     }
-
 </style>
 
 <!DOCTYPE html>
@@ -31,17 +30,24 @@
     <title>Document</title>
 </head>
 <body>
+
 <div class="col-md-4 card mb-4 mt-3">
     <div class="card-body">
-        <div style="text-align center">
-            <input type="submit" value="OK">
-            <input type="text" id="hex">
-            <input type="color" id="color">
-        </div>
+        <form method="post">
+        <label for="color">Pick Label: </label>
+        <input id="color" type="color" name="color" value="{{ label_form.color_label }}">
+        <input type="text" id="hex">
+            <p></p>
+
+            <p>Priority {{ label_form.priority }}</p>
+            {% csrf_token %}
+            <p></p>
+            <button type="submit"  class="btn btn-primary  btn-lg" style="margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%">submit</button>
+        </form>
     </div>
 </div>
+{% load static %}
 <script src="{% static 'js/script.js' %}"></script>
-
 </body>
 
 </html>

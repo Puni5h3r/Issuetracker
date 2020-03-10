@@ -1,10 +1,15 @@
 from django import forms
 
-from base.models import Issue, IssueComment, IssueLike
+from base.models import Issue, IssueComment, IssueLike, Label
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext_lazy as _
-from base.models import Assignees, Label
-from base.widgets import ColorPickerWidget
+from base.models import Assignees
+from django.forms.widgets import TextInput
+from django.contrib.auth import get_user_model
+from .tasks import *
+
+User = get_user_model()
+
 
 class IssueCloseForm(forms.ModelForm):
     weight = forms.IntegerField(
@@ -34,9 +39,18 @@ class AddAssigneeForm(forms.ModelForm):
         model = Assignees
         fields = ['assignees','access']
 
+    def send_email(self,email,issue,current_site):
+        subject = 'There has been an issue in the project: {}'.format(issue.project.name)
+        body = "Hi,\n You have been assigned to the following project as there has been an issue. Link on the link below to go to the following issue."
+        body = body+"\n http://"+str(current_site.domain)+"/projects/{}/issue/update/".format(str(issue.id))
+        send_email_task.delay(
+            email,subject,body)
+
 
 class LabelFrom(forms.ModelForm):
-    color_label = forms.CharField(widget=ColorPickerWidget)
     class Meta:
         model = Label
+        widgets ={
+                   'color_label': TextInput(attrs={'type': 'color'}),
+                   }
         fields = ['color_label','priority']
